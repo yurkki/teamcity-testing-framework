@@ -25,7 +25,7 @@ public class BuildConfigurationTest extends BaseAPITest {
     }
 
     @Test(description = "Создание нормальной конфигурации сборки")
-    void buildConfigurationTest() {
+    void createBuildConfigurationTest() {
         var testData = testDataStorage.addTestData();
 
         var project = new CheckedProject(Specifications.getSpec().superUserSpec())
@@ -34,8 +34,8 @@ public class BuildConfigurationTest extends BaseAPITest {
         softy.assertThat(buildType.getId()).isEqualTo(testData.getBuildType().getId());
     }
 
-    @Test(description = "Попытка создания конфигурации сборки с некорректными данными (empty name field)")
-    void buildConfigurationTest2() {
+    @Test(description = "Создание конфигурации сборки с некорректными данными (empty name field)")
+    void creatingBuildConfigurationWithEmptyNameFieldTest() {
         new CheckedProject(Specifications.getSpec().superUserSpec())
                 .create(testData.getProject());
         var buildTypeData = BuildType.builder()
@@ -49,7 +49,7 @@ public class BuildConfigurationTest extends BaseAPITest {
     }
 
     @Test(description = "Создание конфигурации сборки с дублированием существующего имени")
-    void buildConfigurationTest3() {
+    void creatingBuildConfigurationThatDuplicatesAnExistingName() {
         new CheckedProject(Specifications.getSpec().superUserSpec())
                 .create(testData.getProject());
         var buildTypeData = BuildType.builder()
@@ -68,7 +68,7 @@ public class BuildConfigurationTest extends BaseAPITest {
     }
 
     @Test(description = "Создание конфигурации сборки с указанием несуществующего проекта")
-    void buildConfigurationTest4() {
+    void creatingBuildConfigurationSpecifyingANonExistentProject() {
         testData.getProject().setId(RandomData.getId());
         var buildConfig = new UncheckedBuildConfig(Specifications.getSpec().authSpecification(testData.getUser())).create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND);
@@ -77,7 +77,7 @@ public class BuildConfigurationTest extends BaseAPITest {
     }
 
     @Test(description = "Создание конфигурации сборки без аутентификации")
-    void buildConfigurationTest5() {
+    void creatingBuildConfigurationWithoutAuthentication() {
         new UncheckedBuildConfig(Specifications.getSpec().unAuthSpecification()).create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
     }
