@@ -1,7 +1,9 @@
 package com.example.teamcity.api;
 
+import api.enums.RoleEnum;
 import api.generators.RandomData;
 import api.generators.TestData;
+import api.generators.TestDataGenerator;
 import api.models.NewProjectDescription;
 import api.models.Project;
 import api.requests.checked.CheckedProject;
@@ -10,7 +12,9 @@ import api.requests.unchecked.UncheckedProject;
 import api.specifications.Specifications;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import java.util.List;
 import static org.testng.AssertJUnit.assertTrue;
 
 public class ProjectTest extends BaseAPITest {
@@ -26,6 +30,29 @@ public class ProjectTest extends BaseAPITest {
 
     @Test(description = "Создание нового проекта с корректными данными")
     public void createProjectTest() {
+        var project = new CheckedProject(Specifications.getSpec().authSpecification(testData.getUser()))
+                .create(testData.getProject());
+        softy.assertThat(project.getId()).isEqualTo(testData.getProject().getId());
+        softy.assertThat(project.getName()).isEqualTo(testData.getProject().getName());
+
+        new CheckedProject(Specifications.getSpec().authSpecification(testData.getUser()))
+                .get(project.getId());
+    }
+
+    @DataProvider(name = "rolesProvider")
+    public static Object[][] rolesProvider() {
+        return new Object[][]{
+                {RoleEnum.PROJECT_ADMIN},
+                {RoleEnum.PROJECT_DEVELOPER},
+                {RoleEnum.AGENT_MANAGER},
+                {RoleEnum.PROJECT_VIEWER}
+        };
+    }
+
+
+    @Test(description = "Создание нового проекта с корректными данными c разными ролями пользователя", dataProvider = "rolesProvider")
+    public void createProjectTestWithDifferentUserRoles(RoleEnum role) {
+        testData.getUser().setRoles(TestDataGenerator.generateRoles(List.of(role), "g"));
         var project = new CheckedProject(Specifications.getSpec().authSpecification(testData.getUser()))
                 .create(testData.getProject());
         softy.assertThat(project.getId()).isEqualTo(testData.getProject().getId());
