@@ -11,14 +11,4 @@ public class BaseAPITest extends BaseTest {
     protected TestDataStorage testDataStorage;
     protected CheckedRequests checkedRequestsWithSuperUser = new CheckedRequests(Specifications.getSpec().superUserSpec());
     protected UncheckedRequests uncheckedRequestsWithSuperUser = new UncheckedRequests(Specifications.getSpec().superUserSpec());
-
-    @BeforeMethod
-    public void setupTest(){
-        testDataStorage = TestDataStorage.getStorage();
-    }
-
-    @AfterMethod
-    public void cleanTest(){
-        testDataStorage.delete();
-    }
 }
