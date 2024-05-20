@@ -8,8 +8,7 @@ import com.example.teamcity.ui.pages.Page;
 import java.time.Duration;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.element;
+import static com.codeborne.selenide.Selenide.*;
 
 public class BuildConfigurationPage extends Page {
 
@@ -18,6 +17,8 @@ public class BuildConfigurationPage extends Page {
     private final SelenideElement errorMessageLabel = $(".error#error_buildTypeName");
     private final SelenideElement manuallyOption = $(Selectors.byAttribute("href", "#createManually"));
     private final SelenideElement nameInput = $(Selectors.byAttribute("name", "buildTypeName"));
+    public final SelenideElement buildIdInput = element(Selectors.byId("buildTypeExternalId"));
+    public static String currentBuildId;
 
     public BuildConfigurationPage open(String parentProjectId) {
         Selenide.open("/admin/createObjectMenu.html?projectId=" + parentProjectId + "&showMode=createBuildTypeMenu");
@@ -31,9 +32,9 @@ public class BuildConfigurationPage extends Page {
         return this;
     }
 
-    public BuildConfigurationPage createBuildConfigurationManually() {
+    public BuildConfigurationPage createBuildConfigurationManually(String buildName) {
         manuallyOption.should(visible).click();
-        nameInput.sendKeys(RandomData.getString());
+        nameInput.sendKeys(buildName);
         submit();
         return this;
     }
@@ -41,6 +42,7 @@ public class BuildConfigurationPage extends Page {
     public BuildConfigurationPage setupBuild(String buildTypeName) {
         buildTypeNameInput.clear();
         buildTypeNameInput.sendKeys(buildTypeName);
+        currentBuildId = buildIdInput.getAttribute("generated");
         submit();
         return this;
     }

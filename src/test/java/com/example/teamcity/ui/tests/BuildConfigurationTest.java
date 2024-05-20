@@ -1,5 +1,8 @@
 package com.example.teamcity.ui.tests;
 
+import api.generators.RandomData;
+import api.requests.checked.CheckedBuildConfig;
+import api.specifications.Specifications;
 import com.codeborne.selenide.Condition;
 import com.example.teamcity.ui.pages.admin.BuildConfigurationPage;
 import com.example.teamcity.ui.pages.admin.CreateNewProject;
@@ -42,8 +45,9 @@ public class BuildConfigurationTest extends BaseUITest {
                 .getHeader().shouldHave(Condition.text(testData.getProject().getName()));
         new BuildConfigurationPage()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createBuildConfigurationManually()
+                .createBuildConfigurationManually(RandomData.getString())
                 .setupBuild(testData.getBuildType().getName());
+        new CheckedBuildConfig(Specifications.getSpec().superUserSpec()).get(testData.getProject().getName() + "_" + BuildConfigurationPage.currentBuildId);
     }
 
     @Test
