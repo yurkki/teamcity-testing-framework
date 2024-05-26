@@ -56,7 +56,7 @@ jobs:
         # Берем из лога контейнера строку с последним упоминанием токена, из нее 6-е слово, что соответствует токену
         run: echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
       - name: Set up superUserToken config property
-        run: echo "superUserToken=$SUPER_USER_TOKEN" >> src/main/resources/config.properties
+        run: echo "superUserToken=$SUPER_USER_TOKEN" >> src/test/resources/config.properties
 
       - name: Run TeamCity agent
         run: |
