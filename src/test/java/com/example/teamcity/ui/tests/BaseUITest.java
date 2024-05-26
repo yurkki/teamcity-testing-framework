@@ -20,6 +20,7 @@ public class BaseUITest extends BaseTest {
         Configuration.reportsFolder = "target/surefire-reports";
         Configuration.downloadsFolder ="target/downloads";
         Configuration.timeout = 15000L;
+        Configuration.browser = "firefox";
         BrowserSettings.setup(Config.getProperty("browser"));
     }
 

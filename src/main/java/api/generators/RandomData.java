@@ -5,7 +5,7 @@ import com.github.javafaker.Faker;
 public class RandomData {
 
     public static String getString() {
-        return "test_" + Faker.instance().random().hex();
+        return "test" + Faker.instance().random().hex();
     }
 
     public static String getId() {
