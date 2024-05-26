@@ -9,7 +9,7 @@ public class TestDataGenerator {
 
     public static TestData generate() {
         var user = User.builder()
-                .username(RandomData.getUsername())
+                .username(RandomData.getId())
                 .password(RandomData.getUsername())
                 .email(RandomData.getString() + "@gmail.com")
                 .roles(Roles.builder()
