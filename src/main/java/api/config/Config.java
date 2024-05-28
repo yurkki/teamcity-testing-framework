@@ -8,7 +8,7 @@ public final class Config {
 
     private static Config config;
     private final Properties properties;
-    private final String resourceName = "application.properties";
+    private final String resourceName = "config.properties";
 
     private Config() {
         properties = new Properties();

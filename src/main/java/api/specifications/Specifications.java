@@ -26,7 +26,7 @@ public class Specifications {
 
     private RequestSpecBuilder reqBuilder() {
         return new RequestSpecBuilder()
-                .setBaseUri(Config.getProperty("base.uri"))
+                .setBaseUri("http://" + Config.getProperty("host"))
                 .addFilter(new RequestLoggingFilter())
                 .addFilter(new ResponseLoggingFilter())
                 .setContentType(ContentType.JSON)

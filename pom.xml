@@ -11,14 +11,15 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>17</maven.compiler.target>
-        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
         <aspectj.version>1.9.19</aspectj.version>
         <allure.version>2.24.0</allure.version>
         <restassured.version>5.1.1</restassured.version>
         <assertj-core.version>3.24.2</assertj-core.version>
         <lombock.version>1.18.32</lombock.version>
-        <selenide.version>7.0.2</selenide.version>
+        <selenide.version>6.17.0</selenide.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
     </properties>
 
     <dependencies>
@@ -94,7 +95,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                     <argLine>
@@ -106,6 +107,11 @@
                             <value>${project.build.directory}/allure-results</value>
                         </property>
                     </systemProperties>
+                    <suiteXmlFiles>
+                    <!-- Specify the path to your XML file here -->
+                    <suiteXmlFile>testng-suites/api-suite.xml</suiteXmlFile>
+                    <suiteXmlFile>testng-suites/ui-suite.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
                 <dependencies>
                     <dependency>
