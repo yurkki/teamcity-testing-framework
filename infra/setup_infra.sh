@@ -41,7 +41,6 @@ echo "Start TeamCity server"
 cd $teamcity_server_workdir
 
 docker run -d -u 0 --name $teamcity_server_container_name -v $(pwd)/logs:/opt/teamcity/logs -p 8111:8111 jetbrains/teamcity-server
-#-v $(pwd)/datadir:/data/teamcity_server/datadir
 
 echo "TeamCity Server is running..."
 
@@ -84,10 +83,10 @@ echo "Run system tests"
 
 config=$teamcity_tests_directory/src/test/resources/config.properties
 
-echo "host=http://$ip:8111" > $config
+echo "host=172.17.0.2::8111" > $config
 echo "superUserToken=$superuser_token" >> $config
 echo "remote=http://localhost:4444/wd/hub" >> $config
-echo "browser=firefox" >> $config
+echo "browser=chrome" >> $config
 cat $config
 
 echo "Current directory: $(pwd)"
