@@ -119,6 +119,6 @@ jobs:
         if: always()
         with:
           lfs: true
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.acer ssh }}
           publish_branch: gh-pages
           publish_dir: allure-history
