@@ -118,7 +118,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
-          lfs: true
-          token: ${{ secrets.acer ssh }}
+          deploy_key: ${{ secrets.DEPLOY_PK }}
           publish_branch: gh-pages
           publish_dir: allure-history
