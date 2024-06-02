@@ -81,23 +81,6 @@ jobs:
         run: mvn test -DsuiteXmlFile=testng-suites/api-suite.xml
         timeout-minutes: 30
 
-      - name: Change permissions Swagger
-        run: chmod +x ${{ github.workspace }}/swagger-coverage-commandline/bin/swagger-coverage-commandline
-
-      - name: Download Swagger Spec
-        if: always()
-        run: curl -o target/swagger-coverage-output/swagger.json http://${{ env.HOST }}:8111/app/rest/swagger.json &&
-         swagger-coverage-commandline/bin/swagger-coverage-commandline -s target/swagger-coverage-output/swagger.json -i target/swagger-coverage-output
-
-      - name: Save Swagger coverage
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: swagger-coverage
-          path: |
-            swagger-coverage-report.html
-            swagger-coverage-results.json
-#
       - name: Load test report history
         uses: actions/checkout@v3
         if: always()
@@ -121,3 +104,18 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+
+
+      - name: Run Swagger coverage
+        if: always()
+        run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://$HOST:8111/app/rest/swagger.json -i target/swagger-coverage-output
+            
+            # Swagger coverage репорт сохраняется в артефакты GitHub Actions прогона
+      - name: Save Swagger coverage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+           name: swagger-coverage
+           path: |
+            swagger-coverage-report.html
+            swagger-coverage-results.json
