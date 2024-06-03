@@ -86,7 +86,7 @@ jobs:
         if: always()
         continue-on-error: true
         with:
-          ref: ci-module
+          ref: gh-pages
           path: github-pages
 
       - name: Build test report
