@@ -42,6 +42,7 @@ public class BuildConfigurationPage extends Page {
     public BuildConfigurationPage setupBuild(String buildTypeName) {
         buildTypeNameInput.clear();
         buildTypeNameInput.sendKeys(buildTypeName);
+        buildTypeNameInput.pressEnter();
         currentBuildId = buildIdInput.getAttribute("generated");
         submit();
         return this;
